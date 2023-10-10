@@ -3,7 +3,8 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Bullet
   layers:
   - Default
   - TransparentFX
@@ -44,9 +45,12 @@ TagManager:
   - name: collisionbox
     uniqueID: 4135223885
     locked: 0
-  - name: Player
-    uniqueID: 2975740139
-    locked: 0
   - name: number
     uniqueID: 1244545857
+    locked: 0
+  - name: Bullet
+    uniqueID: 968548879
+    locked: 0
+  - name: Player
+    uniqueID: 2975740139
     locked: 0
