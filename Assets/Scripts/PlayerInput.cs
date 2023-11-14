@@ -1,13 +1,28 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerInput : MonoBehaviour
 {
     public GameObject[] interactiveObjects;
+    private PlayerController playerController;
+
+    void Start()
+    {
+        playerController = FindObjectOfType<PlayerController>();
+    }
 
     void Update()
     {
+        if (Input.GetKeyDown("5"))
+        {
+            if (playerController.currentSP >= playerController.maxSP)
+            {
+                playerController.ActivateSP();
+                Debug.Log("Used SP");
+            }
+        }
+
         for (int i = 1; i <= 9; i++)
         {
             if (i == 5) continue;

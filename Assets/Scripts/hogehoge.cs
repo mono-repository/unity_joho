@@ -1,26 +1,26 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class hogehoge : MonoBehaviour
 {
-    //æ‚Ù‚Çì¬‚µ‚½ƒNƒ‰ƒX
+    //å…ˆã»ã©ä½œæˆã—ãŸã‚¯ãƒ©ã‚¹
     public SerialHandler serialHandler;
 
     void Start()
     {
-        //M†‚ğóM‚µ‚½‚Æ‚«‚ÉA‚»‚ÌƒƒbƒZ[ƒW‚Ìˆ—‚ğs‚¤
+        //ä¿¡å·ã‚’å—ä¿¡ã—ãŸã¨ãã«ã€ãã®ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã®å‡¦ç†ã‚’è¡Œã†
         serialHandler.OnDataReceived += OnDataReceived;
     }
 
-    // ---------------------ƒVƒŠƒAƒ‹’ÊM‚Ì‚½‚ß‚Ìd‘g‚İi‚±‚±‚©‚çj
-    private bool e1 = false; //ƒ{ƒ^ƒ“‚È‚ÇƒZƒ“ƒT[‚Ì”‚ª‚R‚Â‚¾‚Á‚½ê‡DŠeƒ`[ƒ€‚Ì—p“r‚É‰‚¶‚Ä‘‚â‚µ‚½‚èŒ¸‚ç‚µ‚½‚è‚·‚ê‚Î‚¢‚¢
+    // ---------------------ã‚·ãƒªã‚¢ãƒ«é€šä¿¡ã®ãŸã‚ã®ä»•çµ„ã¿ï¼ˆã“ã“ã‹ã‚‰ï¼‰
+    private bool e1 = false; //ãƒœã‚¿ãƒ³ãªã©ã‚»ãƒ³ã‚µãƒ¼ã®æ•°ãŒï¼“ã¤ã ã£ãŸå ´åˆï¼å„ãƒãƒ¼ãƒ ã®ç”¨é€”ã«å¿œã˜ã¦å¢—ã‚„ã—ãŸã‚Šæ¸›ã‚‰ã—ãŸã‚Šã™ã‚Œã°ã„ã„
     private bool e2 = false;
 
-    //Arduino‘¤‚ÅƒCƒxƒ“ƒg‚ª”­¶‚µ‚½
+    //Arduinoå´ã§ã‚¤ãƒ™ãƒ³ãƒˆãŒç™ºç”Ÿã—ãŸ
     void onE1()
     {
-        e1 = true; //ƒCƒxƒ“ƒg‚ª”­¶‚µ‚½‚±‚Æ‚ğ‹L‰¯‚µ‚Ä‚¨‚­
+        e1 = true; //ã‚¤ãƒ™ãƒ³ãƒˆãŒç™ºç”Ÿã—ãŸã“ã¨ã‚’è¨˜æ†¶ã—ã¦ãŠã
     }
 
     public bool getE1()
@@ -43,12 +43,12 @@ public class hogehoge : MonoBehaviour
         e2 = false;
     }
 
-    // ---------------------ƒVƒŠƒAƒ‹’ÊM‚Ì‚½‚ß‚Ìd‘g‚İi‚±‚±‚Ü‚Åj
-    //óM‚µ‚½M†(message)‚É‘Î‚·‚éˆ—
+    // ---------------------ã‚·ãƒªã‚¢ãƒ«é€šä¿¡ã®ãŸã‚ã®ä»•çµ„ã¿ï¼ˆã“ã“ã¾ã§ï¼‰
+    //å—ä¿¡ã—ãŸä¿¡å·(message)ã«å¯¾ã™ã‚‹å‡¦ç†
     void OnDataReceived(string message)
     {
-        // ---------------------ƒVƒŠƒAƒ‹’ÊM‚Ì‚½‚ß‚Ìd‘g‚İi‚±‚±‚©‚çj
-        //ƒCƒxƒ“ƒgƒR[ƒh‚É‰‚¶‚Äˆ—‚·‚é
+        // ---------------------ã‚·ãƒªã‚¢ãƒ«é€šä¿¡ã®ãŸã‚ã®ä»•çµ„ã¿ï¼ˆã“ã“ã‹ã‚‰ï¼‰
+        //ã‚¤ãƒ™ãƒ³ãƒˆã‚³ãƒ¼ãƒ‰ã«å¿œã˜ã¦å‡¦ç†ã™ã‚‹
         var data = message.Split(
                new string[] { "\n" }, System.StringSplitOptions.None);
         //if (data.Length < 2) return;
@@ -61,6 +61,6 @@ public class hogehoge : MonoBehaviour
             Debug.LogWarning(e.Message);
         }
 
-        // ---------------------ƒVƒŠƒAƒ‹’ÊM‚Ì‚½‚ß‚Ìd‘g‚İi‚±‚±‚Ü‚Åj
+        // ---------------------ã‚·ãƒªã‚¢ãƒ«é€šä¿¡ã®ãŸã‚ã®ä»•çµ„ã¿ï¼ˆã“ã“ã¾ã§ï¼‰
     }
 }

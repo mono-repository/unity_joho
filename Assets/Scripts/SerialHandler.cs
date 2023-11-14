@@ -1,4 +1,4 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using System.Collections;
 using System.IO.Ports;
 using System.Threading;
@@ -8,11 +8,11 @@ public class SerialHandler : MonoBehaviour
     public delegate void SerialDataReceivedEventHandler(string message);
     public event SerialDataReceivedEventHandler OnDataReceived;
 
-    //ƒ|[ƒg–¼
-    //—á
-    //Linux‚Å‚Í/dev/ttyUSB0
-    //windows‚Å‚ÍCOM1
-    //Mac‚Å‚Í/dev/tty.usbmodem1421‚È‚Ç
+    //ãƒãƒ¼ãƒˆå
+    //ä¾‹
+    //Linuxã§ã¯/dev/ttyUSB0
+    //windowsã§ã¯COM1
+    //Macã§ã¯/dev/tty.usbmodem1421ãªã©
     public string portName = "COM1";
     public int baudRate = 9600;
 
@@ -45,7 +45,7 @@ public class SerialHandler : MonoBehaviour
     private void Open()
     {
         serialPort_ = new SerialPort(portName, baudRate, Parity.None, 8, StopBits.One);
-        //‚Ü‚½‚Í
+        //ã¾ãŸã¯
         //serialPort_ = new SerialPort(portName, baudRate);
         serialPort_.Open();
 

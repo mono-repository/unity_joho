@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,6 +10,10 @@ public class PlayerController : MonoBehaviour
     public int currentHealth;
     public Slider healthSlider;
     public TextMeshProUGUI healthText;
+    public Slider spSlider;
+    public int maxSP = 100;
+    public int currentSP = 0;
+    public TextMeshProUGUI spText;
 
     private hogehoge h;
     // Start is called before the first frame update
@@ -21,6 +25,7 @@ public class PlayerController : MonoBehaviour
         healthSlider.maxValue = maxHealth;
         healthSlider.value = currentHealth;
         UpdateHealthText();
+        UpdateSPText();
     }
 
     private void GameOver()
@@ -56,17 +61,48 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void AddSP(int amount)
+    {
+        currentSP += amount;
+        if (currentSP > maxSP)
+        {
+            currentSP = maxSP;
+        }
+        spSlider.value = currentSP;
+    }
+
+    public void ActivateSP()
+    {
+        if (currentSP >= maxSP)
+        {
+            GameObject[] bullets = GameObject.FindGameObjectsWithTag("Bullet");
+            foreach (GameObject bullet in bullets)
+            {
+                Destroy(bullet.gameObject);
+            }
+
+            currentSP = 0;
+            spSlider.value = currentSP;
+            UpdateSPText();
+        }
+    }
+
+    public void UpdateSPText()
+    {
+        spText.text = currentSP.ToString();
+    }
+
     // Update is called once per frame
     void Update()
     {
         //if (Input.GetKey("Btn1") || h.getE1())
         //{
             //h.resetE1();
-            //transform.position += new Vector3(30f, 55f, 0f);
+            
         //}
         //if (Input.GetKey("Btn2"))
         //{
-            //transform.position += new Vector3(84.5f, 55f, 0f);
+            
         //}
 
     }

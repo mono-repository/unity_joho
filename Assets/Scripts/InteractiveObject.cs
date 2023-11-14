@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,9 +6,11 @@ public class InteractiveObject : MonoBehaviour
 {
     private Color defaultColor;
     public bool isActive = false;
+    private PlayerController playerController;
 
     void Start()
     {
+        playerController = FindObjectOfType<PlayerController>();
         defaultColor = GetComponent<SpriteRenderer>().color;
     }
 
@@ -29,6 +31,8 @@ public class InteractiveObject : MonoBehaviour
         if (isActive && collider.gameObject.CompareTag("Bullet"))
         {
             Destroy(collider.gameObject);
+            playerController.AddSP(5);
+            playerController.UpdateSPText();
         }
     }
 }

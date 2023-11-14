@@ -1,11 +1,11 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class BulletController : MonoBehaviour
 {
-    public float speed = 0.5f;
-    private Vector3 targetPosition = new Vector3(2, 0, 0);
+    public float speed; // 弾の速度
+    private Vector3 targetPosition = new Vector3(2, 0, 0); // 弾が向かう位置
     public int damage = 10;
 
     void OnTriggerEnter2D(Collider2D other)
