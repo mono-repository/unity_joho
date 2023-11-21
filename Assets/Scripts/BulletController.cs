@@ -1,18 +1,30 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class BulletController : MonoBehaviour
 {
-    public float speed = 0.5f;
-    private Vector3 targetPosition = new Vector3(2, 0, 0);
+    public float speed; // å¼¾ã®é€Ÿåº¦
+    private Vector3 targetPosition = new Vector3(2, 0, 0); // å¼¾ãŒå‘ã‹ã†ä½ç½®
+    public int damage = 10;
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            PlayerController playerController = other.gameObject.GetComponent<PlayerController>();
+            if (playerController != null)
+            {
+                playerController.TakeDamage(damage);
+            }
+            Destroy(gameObject);
+        }
+    }
 
     void Update()
     {
-        // Œ»İ’n“_‚Æ–Ú•W’n“_‚ÌŠÔ‚Ì‹——£‚ğŒvZ
         float distance = Vector3.Distance(transform.position, targetPosition);
 
-        // ‚ ‚é’ö“x‹ß‚Ã‚¢‚½‚ç’â~iƒIƒuƒWƒFƒNƒg‚ª–Ú•W‚É“’B‚µ‚½‚ÆŒ©‚È‚·j
         if (distance < 0.01f)
         {
             transform.position = targetPosition;
@@ -20,7 +32,6 @@ public class BulletController : MonoBehaviour
         }
         else
         {
-            // –Ú•W’n“_‚ÉŒü‚©‚Á‚Äˆê’è‘¬‚ÅˆÚ“®
             transform.position = Vector3.MoveTowards(
                 transform.position,
                 targetPosition,

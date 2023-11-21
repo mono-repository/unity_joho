@@ -1,17 +1,17 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class BulletGenerator : MonoBehaviour
 {
-    public GameObject bulletPrefab; // ’e‚ÌƒvƒŒƒtƒ@ƒu‚ğƒAƒTƒCƒ“‚µ‚Ü‚·B
-    public float spawnRate = 1f; // ’e‚ğ¶¬‚·‚é•p“xi•bj
-    public float radius = 6f;
+    public GameObject bulletPrefab;
+    public float spawnRate ; // å¼¾ã‚’ç”Ÿæˆã™ã‚‹é »åº¦
+    public float radius ; // åŠå¾„
     private Vector2[] spawnPoints;
 
     void Start()
     {
-        spawnPoints = new Vector2[]// 8•ûŒü‚ÌƒxƒNƒgƒ‹
+        spawnPoints = new Vector2[]// 8æ–¹å‘ã®ãƒ™ã‚¯ãƒˆãƒ«
         {
             new Vector2(2, radius),
                 new Vector2(2 + radius/Mathf.Sqrt(2), radius/Mathf.Sqrt(2)),
@@ -23,23 +23,23 @@ public class BulletGenerator : MonoBehaviour
                 new Vector2(2 - radius/Mathf.Sqrt(2), radius/Mathf.Sqrt(2))
         };
     }   
-    private float timer; // ƒ^ƒCƒ}[
+    private float timer; // ã‚¿ã‚¤ãƒãƒ¼
 
     void Update()
     {
-        timer -= Time.deltaTime; // ƒ^ƒCƒ}[‚ğŒ¸­‚³‚¹‚Ü‚·B
-        if (timer <= 0f) // ƒ^ƒCƒ}[‚ª0‚É‚È‚Á‚½‚ç
+        timer -= Time.deltaTime; // ã‚¿ã‚¤ãƒãƒ¼ã‚’æ¸›å°‘ã•ã›ã‚‹
+        if (timer <= 0f) // ã‚¿ã‚¤ãƒãƒ¼ãŒ0ã«ãªã£ãŸã‚‰
         {
-            GenerateBullet(); // ’e‚ğ¶¬‚µ‚Ü‚·B
-            timer = spawnRate; // ƒ^ƒCƒ}[‚ğƒŠƒZƒbƒg‚µ‚Ü‚·B
+            GenerateBullet(); // ç”Ÿæˆ
+            timer = spawnRate; // ã‚¿ã‚¤ãƒãƒ¼ã‚’ãƒªã‚»ãƒƒãƒˆ
         }
     }
 
     void GenerateBullet()
     {
-        // ƒ‰ƒ“ƒ_ƒ€‚È¶¬ˆÊ’u‚ğ‘I‚Ñ‚Ü‚·B
+        // ãƒ©ãƒ³ãƒ€ãƒ ãªç”Ÿæˆä½ç½®ã‚’é¸ã¶
         Vector2 spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
-        // ’e‚ğ¶¬‚µ‚Ü‚·B
+        // å¼¾ã‚’ç”Ÿæˆ
         Instantiate(bulletPrefab, spawnPoint, Quaternion.identity);
     }
 }
