@@ -2,6 +2,8 @@
 using System.Collections;
 using System.IO.Ports;
 using System.Threading;
+using System;
+using System.Diagnostics;
 
 public class SerialHandler : MonoBehaviour
 {
@@ -13,7 +15,7 @@ public class SerialHandler : MonoBehaviour
     //Linuxでは/dev/ttyUSB0
     //windowsではCOM1
     //Macでは/dev/tty.usbmodem1421など
-    public string portName = "COM1";
+    public string portName = "COM11";
     public int baudRate = 9600;
 
     private SerialPort serialPort_;
@@ -45,14 +47,22 @@ public class SerialHandler : MonoBehaviour
     private void Open()
     {
         serialPort_ = new SerialPort(portName, baudRate, Parity.None, 8, StopBits.One);
-        //または
-        //serialPort_ = new SerialPort(portName, baudRate);
-        serialPort_.Open();
 
-        isRunning_ = true;
+        try
+        {
+            serialPort_.Open();
+            UnityEngine.Debug.Log("Port opened successfully");
 
-        thread_ = new Thread(Read);
-        thread_.Start();
+            isRunning_ = true;
+            UnityEngine.Debug.Log("isRunning_ set to " + isRunning_);
+            thread_ = new Thread(Read);
+            thread_.Start();
+        }
+        catch (Exception e)
+        {
+            // エラーが発生した場合、エラーメッセージをログに記録
+            UnityEngine.Debug.LogError("Error opening serial port: " + e.Message);
+        }
     }
 
     private void Close()
@@ -74,16 +84,18 @@ public class SerialHandler : MonoBehaviour
 
     private void Read()
     {
+        UnityEngine.Debug.Log("Read method started. Serial port open: " + serialPort_.IsOpen);
         while (isRunning_ && serialPort_ != null && serialPort_.IsOpen)
         {
             try
             {
                 message_ = serialPort_.ReadLine();
+                UnityEngine.Debug.Log("Received data: " + message_);
                 isNewMessageReceived_ = true;
             }
             catch (System.Exception e)
             {
-                Debug.LogWarning(e.Message);
+                UnityEngine.Debug.LogWarning(e.Message);
             }
         }
     }
@@ -96,7 +108,7 @@ public class SerialHandler : MonoBehaviour
         }
         catch (System.Exception e)
         {
-            Debug.LogWarning(e.Message);
+            UnityEngine.Debug.LogWarning(e.Message);
         }
     }
 }

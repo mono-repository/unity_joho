@@ -10,7 +10,7 @@ public class hogehoge : MonoBehaviour
     void Start()
     {
         //信号を受信したときに、そのメッセージの処理を行う
-        serialHandler.OnDataReceived += OnDataReceived;
+        //serialHandler.OnDataReceived += OnDataReceived;
     }
 
     // ---------------------シリアル通信のための仕組み（ここから）
