@@ -14,6 +14,8 @@ public class PlayerController : MonoBehaviour
     public int maxSP = 100;
     public int currentSP = 0;
     public TextMeshProUGUI spText;
+    public int score = 0;
+    public TextMeshProUGUI scoreText;
 
     private hogehoge h;
     // Start is called before the first frame update
@@ -26,6 +28,7 @@ public class PlayerController : MonoBehaviour
         healthSlider.value = currentHealth;
         UpdateHealthText();
         UpdateSPText();
+        UpdateScoreText();
     }
 
     private void GameOver()
@@ -90,6 +93,16 @@ public class PlayerController : MonoBehaviour
     public void UpdateSPText()
     {
         spText.text = currentSP.ToString();
+    }
+
+    public void IncreaseScore(int amount)
+    {
+        score += amount;
+    }
+
+    public void UpdateScoreText()
+    {
+        scoreText.text = $"SCORE: {score:0000}";
     }
 
     // Update is called once per frame

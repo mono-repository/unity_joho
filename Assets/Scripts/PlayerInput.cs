@@ -17,41 +17,35 @@ public class PlayerInput : MonoBehaviour
     void OnDataReceived(string message)
     {
         Debug.Log("Received: " + message);
-        if (message.StartsWith("Btn"))
+        string[] parts = message.Split(' ');
+        if (parts.Length >= 2)
         {
-            string[] parts = message.Split(' ');
-            if (parts.Length >= 2)
+            int btnNumber;
+            if (int.TryParse(parts[0], out btnNumber) && btnNumber >= 1 && btnNumber <= 9)
             {
-                int btnNumber;
-                if (int.TryParse(parts[0].Substring(3), out btnNumber))
+                int adjustedIndex = (btnNumber > 5) ? btnNumber - 2 : btnNumber - 1;
+
+                if (btnNumber == 5 && parts[1] == "ON")
                 {
-                    if (btnNumber == 5 && parts[1] == "ON")
+                    if (playerController.currentSP >= playerController.maxSP)
                     {
-                        if (playerController.currentSP >= playerController.maxSP)
-                        {
-                            playerController.ActivateSP();
-                            Debug.Log("Used SP");
-                        }
-                        
+                        playerController.ActivateSP();
+                        Debug.Log("Used SP");
                     }
-
-                    else if (btnNumber >= 1 && btnNumber <= 9)
-                    {
-                        int adjustedIndex = (btnNumber > 5) ? btnNumber - 2 : btnNumber - 1;
-
-                        if (parts[1] == "ON")
-                        {
-                            interactiveObjects[adjustedIndex].GetComponent<InteractiveObject>().Activate();
-                        }
-                        else if (parts[1] == "OFF")
-                        {
-                            interactiveObjects[adjustedIndex].GetComponent<InteractiveObject>().Deactivate();
-                        }
-                    }
+                }
+                else if (parts[1] == "ON")
+                {
+                    interactiveObjects[adjustedIndex].GetComponent<InteractiveObject>().Activate();
+                }
+                else if (parts[1] == "OFF")
+                {
+                    interactiveObjects[adjustedIndex].GetComponent<InteractiveObject>().Deactivate();
                 }
             }
         }
     }
+
+
 
     //void Update()
     //{

@@ -33,6 +33,8 @@ public class InteractiveObject : MonoBehaviour
             Destroy(collider.gameObject);
             playerController.AddSP(5);
             playerController.UpdateSPText();
+            playerController.IncreaseScore(100);
+            playerController.UpdateScoreText();
         }
     }
 }
