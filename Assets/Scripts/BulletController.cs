@@ -4,9 +4,16 @@ using UnityEngine;
 
 public class BulletController : MonoBehaviour
 {
-    public float speed; // 弾の速度
+    public static float speedMultiplier = 1f;
+    public float baseSpeed = 2f;
+    private float currentSpeed;
     private Vector3 targetPosition = new Vector3(2, 0, 0); // 弾が向かう位置
     public int damage = 10;
+
+    void Start()
+    {
+        currentSpeed = baseSpeed * speedMultiplier;
+    }
 
     void OnTriggerEnter2D(Collider2D other)
     {
@@ -35,7 +42,7 @@ public class BulletController : MonoBehaviour
             transform.position = Vector3.MoveTowards(
                 transform.position,
                 targetPosition,
-                speed * Time.deltaTime
+                currentSpeed * Time.deltaTime
             );
         }
     }

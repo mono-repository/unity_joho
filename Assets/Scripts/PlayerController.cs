@@ -16,13 +16,9 @@ public class PlayerController : MonoBehaviour
     public TextMeshProUGUI spText;
     public int score = 0;
     public TextMeshProUGUI scoreText;
-
-    private hogehoge h;
     // Start is called before the first frame update
     void Start()
     {
-        h = GameObject.Find("Main Camera").GetComponent<hogehoge>();
-
         currentHealth = maxHealth;
         healthSlider.maxValue = maxHealth;
         healthSlider.value = currentHealth;
