@@ -4,9 +4,16 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
+    private BulletGenerator bulletGenerator;
     public float timeToIncreaseDifficulty = 60f; // 難易度が上がるまでの時間（秒）
-    public float difficultyMultiplier = 1.1f;   // 難易度が上がる度に適用される乗数
+    public float difficultyIncreaseAmount = 0.9f;
+
     private float timeSinceLastIncrease = 0f;
+
+    void Start()
+    {
+        bulletGenerator = FindObjectOfType<BulletGenerator>();
+    }
 
     void Update()
     {
@@ -21,7 +28,8 @@ public class GameController : MonoBehaviour
 
     void IncreaseDifficulty()
     {
-        BulletController.speedMultiplier *= difficultyMultiplier;
+        bulletGenerator.spawnRate *= difficultyIncreaseAmount;
+        bulletGenerator.spawnRate = Mathf.Max(bulletGenerator.spawnRate, 0.1f);
     }
 }
 

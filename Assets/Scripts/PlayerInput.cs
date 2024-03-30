@@ -8,13 +8,44 @@ public class PlayerInput : MonoBehaviour
     private PlayerController playerController;
     public SerialHandler serialHandler;
 
+    private bool useKeyboardInput = false;
+
     void Start()
     {
         playerController = FindObjectOfType<PlayerController>();
-        serialHandler.OnDataReceived += OnDataReceived;
+
+        if (serialHandler !=  null)
+        {
+            serialHandler.Open();
+            if (!serialHandler.IsOpenSuccessful)
+            {
+                useKeyboardInput = true;
+            }
+        }
+        else
+        {
+            Debug.LogWarning("SerialHandler not set");
+            useKeyboardInput = true;
+        }
     }
 
     void OnDataReceived(string message)
+    {
+        if (!useKeyboardInput)
+        {
+            SerialInput(message);
+        }
+    }
+
+    private void Update()
+    {
+        if (useKeyboardInput)
+        {
+            KeyboardInput();
+        }
+    }
+
+    private void SerialInput(string message)
     {
         Debug.Log("Received: " + message);
         string[] parts = message.Split(' ');
@@ -45,33 +76,31 @@ public class PlayerInput : MonoBehaviour
         }
     }
 
+    private void KeyboardInput()
+    {
+        if (Input.GetKeyDown("5"))
+        {
+            if (playerController.currentSP >= playerController.maxSP)
+            {
+                playerController.ActivateSP();
+                Debug.Log("Used SP");
+            }
+        }
 
+        for (int i = 1; i <= 9; i++)
+        {
+            if (i == 5) continue;
 
-    //void Update()
-    //{
-    //    if (Input.GetKeyDown("5"))
-    //    {
-    //        if (playerController.currentSP >= playerController.maxSP)
-    //        {
-    //            playerController.ActivateSP();
-    //            Debug.Log("Used SP");
-    //        }
-    //    }
+            int adjustedIndex = (i > 5) ? i - 2 : i - 1;
 
-    //    for (int i = 1; i <= 9; i++)
-    //    {
-    //        if (i == 5) continue;
-
-    //        int adjustedIndex = (i > 5) ? i - 2 : i - 1;
-
-    //        if (Input.GetKeyDown(i.ToString()))
-    //        {
-    //            interactiveObjects[adjustedIndex].GetComponent<InteractiveObject>().Activate();
-    //        }
-    //        if (Input.GetKeyUp(i.ToString()))
-    //        {
-    //            interactiveObjects[adjustedIndex].GetComponent<InteractiveObject>().Deactivate();
-    //        }
-    //    }
-    //}
+            if (Input.GetKeyDown(i.ToString()))
+            {
+                interactiveObjects[adjustedIndex].GetComponent<InteractiveObject>().Activate();
+            }
+            if (Input.GetKeyUp(i.ToString()))
+            {
+                interactiveObjects[adjustedIndex].GetComponent<InteractiveObject>().Deactivate();
+            }
+        }
+    }
 }

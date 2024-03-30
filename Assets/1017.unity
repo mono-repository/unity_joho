@@ -2438,7 +2438,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeToIncreaseDifficulty: 10
-  difficultyMultiplier: 1.2
+  difficultyMultiplier: 1.5
 --- !u!1 &1304324321
 GameObject:
   m_ObjectHideFlags: 0

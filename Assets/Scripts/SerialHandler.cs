@@ -24,6 +24,7 @@ public class SerialHandler : MonoBehaviour
 
     private string message_;
     private bool isNewMessageReceived_ = false;
+    public bool IsOpenSuccessful { get; private set; }
 
     void Awake()
     {
@@ -44,7 +45,7 @@ public class SerialHandler : MonoBehaviour
         Close();
     }
 
-    private void Open()
+    public void Open()
     {
         serialPort_ = new SerialPort(portName, baudRate, Parity.None, 8, StopBits.One);
 
@@ -62,6 +63,7 @@ public class SerialHandler : MonoBehaviour
         {
             // エラーが発生した場合、エラーメッセージをログに記録
             UnityEngine.Debug.LogError("Error opening serial port: " + e.Message);
+            IsOpenSuccessful = false;
         }
     }
 
