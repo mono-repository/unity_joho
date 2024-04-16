@@ -14,20 +14,24 @@ public class PlayerInput : MonoBehaviour
     {
         playerController = FindObjectOfType<PlayerController>();
 
-        if (serialHandler !=  null)
+        if (SerialHandler.Instance != null)
         {
-            serialHandler.Open();
-            if (!serialHandler.IsOpenSuccessful)
+            if (!SerialHandler.Instance.IsOpenSuccessful)
             {
                 useKeyboardInput = true;
+            }
+            else
+            {
+                SerialHandler.Instance.OnDataReceived += OnDataReceived; // イベントに登録
             }
         }
         else
         {
-            Debug.LogWarning("SerialHandler not set");
+            Debug.LogWarning("SerialHandler instance not found");
             useKeyboardInput = true;
         }
     }
+
 
     void OnDataReceived(string message)
     {

@@ -15,7 +15,7 @@ public class SerialHandler : MonoBehaviour
     //Linuxでは/dev/ttyUSB0
     //windowsではCOM1
     //Macでは/dev/tty.usbmodem1421など
-    public string portName = "COM11";
+    public string portName = "COM9";
     public int baudRate = 115200;
 
     private SerialPort serialPort_;
@@ -25,20 +25,32 @@ public class SerialHandler : MonoBehaviour
     private string message_;
     private bool isNewMessageReceived_ = false;
     public bool IsOpenSuccessful { get; private set; }
+    public static SerialHandler Instance { get; private set; }
 
     void Awake()
     {
-        Open();
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+            Open();
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
     void Update()
     {
         if (isNewMessageReceived_)
         {
-            OnDataReceived(message_);
+            // イベントがnullでないことを確認
+            OnDataReceived?.Invoke(message_);
+            isNewMessageReceived_ = false;
         }
-        isNewMessageReceived_ = false;
     }
+
 
     void OnDestroy()
     {
@@ -49,10 +61,15 @@ public class SerialHandler : MonoBehaviour
     {
         serialPort_ = new SerialPort(portName, baudRate, Parity.None, 8, StopBits.One);
 
+        // タイムアウト設定 (ミリ秒)
+        serialPort_.ReadTimeout = 500;   // 読み取りタイムアウト
+        serialPort_.WriteTimeout = 500;  // 書き込みタイムアウト
+
         try
         {
             serialPort_.Open();
             UnityEngine.Debug.Log("Port opened successfully");
+            IsOpenSuccessful = true;
 
             isRunning_ = true;
             UnityEngine.Debug.Log("isRunning_ set to " + isRunning_);
@@ -61,11 +78,11 @@ public class SerialHandler : MonoBehaviour
         }
         catch (Exception e)
         {
-            // エラーが発生した場合、エラーメッセージをログに記録
             UnityEngine.Debug.LogError("Error opening serial port: " + e.Message);
             IsOpenSuccessful = false;
         }
     }
+
 
     private void Close()
     {
@@ -87,17 +104,28 @@ public class SerialHandler : MonoBehaviour
     private void Read()
     {
         UnityEngine.Debug.Log("Read method started. Serial port open: " + serialPort_.IsOpen);
-        while (isRunning_ && serialPort_ != null && serialPort_.IsOpen)
+        while (isRunning_)
         {
             try
             {
-                message_ = serialPort_.ReadLine();
-                UnityEngine.Debug.Log("Received data: " + message_);
-                isNewMessageReceived_ = true;
+                if (serialPort_ != null && serialPort_.IsOpen)
+                {
+                    message_ = serialPort_.ReadLine();  // ReadLine は ReadTimeout で設定されたタイムアウトを使用
+                    UnityEngine.Debug.Log("Received data: " + message_);
+                    isNewMessageReceived_ = true;
+                }
             }
-            catch (System.Exception e)
+            catch (TimeoutException)
             {
-                UnityEngine.Debug.LogWarning(e.Message);
+                UnityEngine.Debug.LogWarning("Read timeout occurred.");
+            }
+            catch (Exception e)
+            {
+                UnityEngine.Debug.LogWarning("Read failed: " + e.Message);
+                if (!isRunning_)
+                {
+                    return;  // スレッドを安全に終了
+                }
             }
         }
     }

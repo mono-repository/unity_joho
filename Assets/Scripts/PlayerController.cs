@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -27,15 +28,13 @@ public class PlayerController : MonoBehaviour
         UpdateScoreText();
     }
 
-    private void GameOver()
+    private void HandleGameOver()
     {
-        Application.Quit();
+        Debug.Log("Player defeated! loading result scene");
+        SceneManager.LoadScene("ResultScene"); // リザルト画面へ遷移
 
-        // In editor
-        #if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
-        #endif
     }
+
 
     public void TakeDamage(int damage)
     {
@@ -45,8 +44,7 @@ public class PlayerController : MonoBehaviour
 
         if (currentHealth <= 0)
         {
-            Debug.Log("Player defeated!");
-            GameOver();
+            HandleGameOver();
         }
     }
 
@@ -98,7 +96,7 @@ public class PlayerController : MonoBehaviour
 
     public void UpdateScoreText()
     {
-        scoreText.text = $"SCORE: {score:0000}";
+        scoreText.text = $"SCORE: {score:00000}";
     }
 
     // Update is called once per frame
