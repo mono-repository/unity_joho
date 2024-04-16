@@ -64,6 +64,7 @@ public class PlayerInput : MonoBehaviour
                 {
                     if (playerController.currentSP >= playerController.maxSP)
                     {
+                        SerialHandler.Instance.Write("SP_MAX\n");
                         playerController.ActivateSP();
                         Debug.Log("Used SP");
                     }
