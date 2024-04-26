@@ -26,6 +26,10 @@ public class InteractiveObject : MonoBehaviour
         GetComponent<SpriteRenderer>().color = defaultColor;
     }
 
+    public void Reset()
+    {
+        Deactivate();  // 非アクティブ状態に設定し、デフォルトの色に戻す
+    }
     void OnTriggerStay2D(Collider2D collider)
     {
         if (isActive && collider.gameObject.CompareTag("Bullet"))

@@ -13,16 +13,17 @@ public class PlayerInput : MonoBehaviour
     void Start()
     {
         playerController = FindObjectOfType<PlayerController>();
+        serialHandler = FindObjectOfType<SerialHandler>();
 
-        if (SerialHandler.Instance != null)
+        if (serialHandler != null)
         {
-            if (!SerialHandler.Instance.IsOpenSuccessful)
+            if (!serialHandler.IsOpenSuccessful)
             {
                 useKeyboardInput = true;
             }
             else
             {
-                SerialHandler.Instance.OnDataReceived += OnDataReceived; // イベントに登録
+                serialHandler.OnDataReceived += OnDataReceived; // イベントに登録
             }
         }
         else
@@ -51,7 +52,7 @@ public class PlayerInput : MonoBehaviour
 
     private void SerialInput(string message)
     {
-        Debug.Log("Received: " + message);
+
         string[] parts = message.Split(' ');
         if (parts.Length >= 2)
         {
@@ -64,7 +65,7 @@ public class PlayerInput : MonoBehaviour
                 {
                     if (playerController.currentSP >= playerController.maxSP)
                     {
-                        SerialHandler.Instance.Write("SP_MAX\n");
+                        serialHandler.Write("SP_MAX\n");
                         playerController.ActivateSP();
                         Debug.Log("Used SP");
                     }

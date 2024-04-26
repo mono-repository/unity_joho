@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour
     public TextMeshProUGUI spText;
     public int score = 0;
     public TextMeshProUGUI scoreText;
+    public SerialHandler serialHandler;
     // Start is called before the first frame update
     void Start()
     {
@@ -30,10 +31,13 @@ public class PlayerController : MonoBehaviour
 
     private void HandleGameOver()
     {
-        Debug.Log("Player defeated! loading result scene");
-        SceneManager.LoadScene("ResultScene"); // リザルト画面へ遷移
-
+        PlayerPrefs.SetInt("PlayerScore", score);
+        PlayerPrefs.Save();
+        Debug.Log("Player defeated! Loading result scene");
+        serialHandler.Write("stop\n");
+        SceneManager.LoadScene("ResultScene");
     }
+
 
 
     public void TakeDamage(int damage)
